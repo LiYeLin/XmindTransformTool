@@ -110,8 +110,6 @@ public class App {
         );
         System.out.println("--------------------------------------------------");
         System.out.println("XMind测试用例转Excel测试用例工具");
-        System.out.println("作者：guokaiqiang");
-        System.out.println("有问题或建议，可大象直接联系，谢谢");
         System.out.println("--------------------------------------------------");
         return;
     }
@@ -193,21 +191,24 @@ public class App {
         headers.add("用例步骤");
         headers.add("预期结果");
         List list = new ArrayList();
+        //逐行写入
         for (TestCase testCase : caseList) {
             List<String> tempList = new ArrayList<>();
             if (mode.equals("dir")) {
                 tempList.add(rootDir + " - " + XmindUtil.ConvertToDirectory(testCase.getDirectory(), " - "));
                 tempList.add(testCase.getName());
             } else {
-                tempList.add("");
                 List<String> tempCaseName = testCase.getDirectory();
                 tempCaseName.add(testCase.getName());
                 tempList.add(XmindUtil.ConvertToDirectory(tempCaseName, "/"));
+                tempList.add(XmindUtil.convertToTitle(tempCaseName,"TC："));
             }
             //
             //
             tempList.add(testCase.getLevel());
-            tempList.add(testCase.getType());
+//            暂时写死
+            tempList.add("自动化测试");
+//            tempList.add(testCase.getType());
             tempList.add(testCase.getStatus());
             tempList.add(testCase.getCreater());
             tempList.add(testCase.getPrecondition());
@@ -229,7 +230,6 @@ public class App {
         headers.add("步骤编号（数字）");
         headers.add("步骤内容");
         headers.add("期望结果");
-        // TODO: 2020/4/5 这个list干嘛的
         List list = new ArrayList();
         for (TestCase testCase : caseList) {
             List<String> tempList = new ArrayList<>();

@@ -5,10 +5,7 @@ import org.xmind.core.*;
 import org.xmind.core.marker.IMarkerRef;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,9 +17,11 @@ public class XmindUtil {
     public static List<TestCase> readXmind(String file) {
         IWorkbookBuilder builder = Core.getWorkbookBuilder();//初始化builder
         IWorkbook workbook = null;
-//            workbook = builder.loadFromPath("/Users/guokaiqiang/Documents/业务/调度/分商户压单支持多时段/分商户压单支持多时段-测试用例.xmind");//打开XMind文件
         try {
-            workbook = builder.loadFromPath(file);//打开XMind文件
+            //打开XMind文件
+            //TODO:暂时从绝对路径读取文件
+            workbook = builder.loadFromPath("C:/Eg/xmind-transform-tapd-excel/企客人工爆单.xmind");
+//            workbook = builder.loadFromPath(file);//打开XMind文件
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CoreException e) {
@@ -73,13 +72,25 @@ public class XmindUtil {
      */
     public static String ConvertToDirectory(List<String> directorys, String Separator) {
         StringBuffer res = new StringBuffer();
-        for (int i = 0; i < directorys.size() - 1; i++) {
+        for (int i = 0; i < directorys.size() - 2; i++) {
+            System.out.println(directorys.get(i));
+
             res.append(directorys.get(i)).append(Separator);
         }
-        res.append(directorys.get(directorys.size() - 1));
+        res.append(directorys.get(directorys.size() - 2));
+
         return res.toString();
     }
 
+    public static String convertToTitle(List<String> directorys,String startSign){
+
+        String temp = directorys.get(directorys.size() - 1);
+        if (temp.startsWith(startSign)){
+            String substring = temp.substring(startSign.length());
+            temp=substring;
+        }
+        return temp;
+    }
     /**
      * 获取用例级别
      * @param topic
@@ -178,7 +189,7 @@ public class XmindUtil {
             String comment = iPlainNotesContent.getTextContent();
             testCase.setRequirementId(getValueByKey(comment, "需求ID"));
             testCase.setPrecondition(getValueByKey(comment, "前置条件"));
-            testCase.setStep(getValueByKey(comment, "用例步骤"));
+            testCase.setStep(getValueByKey(comment, "操作步骤"));
             testCase.setExpect(getValueByKey(comment, "预期结果"));
             testCase.setType(getValueByKey(comment, "用例类型"));
             testCase.setStatus(getValueByKey(comment, "用例状态"));
