@@ -1,0 +1,3 @@
+# XmindTransformTool
+可以把Ximd格式的 特定风格的用例图转为excel中xlsx格式的用例表格 需要额外导入Xmind的Jar包 其余无额外需求
+
